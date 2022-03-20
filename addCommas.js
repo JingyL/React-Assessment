@@ -1,5 +1,9 @@
+const g_minusSign = "-";
+const g_commaDigits = 3; // add comma every 3 digits, only for integer
+
+
 function addCommas(nums) {
-    let res = nums < 0 ? "-" : "";
+    let res = nums < 0 ? g_minusSign : "";
 
     function handleInteger(integerString) {
         let str = "";
@@ -10,7 +14,7 @@ function addCommas(nums) {
             if (i === 0){
                 continue;
             }
-            if (digit % 3 === 0){
+            if (digit % g_commaDigits === 0){
                 str += ",";
             }
         }
