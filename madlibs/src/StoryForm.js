@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Formik, Form, Field } from 'formik';
 
 function StoryForm({ addElement }) {
     const INITIAL_STATE = {
@@ -8,18 +9,50 @@ function StoryForm({ addElement }) {
         color: '',
     }
     const [formData, setFormData] = useState(INITIAL_STATE)
-    const handleChange = (e) => {
+    const [touchedNoun1, setTouchedNoun1] = useState(false)
+    const [touchedNoun2, setTouchedNoun2] = useState(false)
+    const [touchedAdj, setTouchedAdj] = useState(false)
+    const [touchedColor, setTouchedColor] = useState(false)
+    const handleChange_Noun1 = (e) => {
         const { name, value } = e.target;
-        setFormData(formData => ({
-            ...formData,
+        setFormData(currentFormData => ({
+            ...currentFormData,
             [name]: value
         }))
-
+        setTouchedNoun1(true)
     }
+    const handleChange_Noun2 = (e) => {
+        const { name, value } = e.target;
+        setFormData(currentFormData => ({
+            ...currentFormData,
+            [name]: value
+        }))
+        setTouchedNoun2(true)
+    }
+    const handleChange_Adj = (e) => {
+        const { name, value } = e.target;
+        setFormData(currentFormData => ({
+            ...currentFormData,
+            [name]: value
+        }))
+        setTouchedAdj(true)
+    }
+    const handleChange_Color = (e) => {
+        const { name, value } = e.target;
+        setFormData(currentFormData => ({
+            ...currentFormData,
+            [name]: value
+        }))
+        setTouchedColor(true)
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        addElement(formData);
-        setFormData(INITIAL_STATE)
+        if (formData["noun1"] && formData["noun2"] && formData["adjective"] && formData["color"]) {
+            addElement(formData);
+            setFormData(INITIAL_STATE)
+        }
+
     }
 
     return (
@@ -32,8 +65,10 @@ function StoryForm({ addElement }) {
                         type="text"
                         placeholder="noun1"
                         value={formData.noun1}
-                        onChange={handleChange}
-                        required="required" />
+                        onChange={handleChange_Noun1}
+                    />
+                    {!formData["noun1"] && touchedNoun1 &&
+                        <span >Cannot be empty</span>}
                 </div>
                 <div>
                     <label htmlFor="noun2">Noun2</label>
@@ -42,8 +77,10 @@ function StoryForm({ addElement }) {
                         type="text"
                         placeholder="noun2"
                         value={formData.noun2}
-                        onChange={handleChange}
-                        required="required" />
+                        onChange={handleChange_Noun2}
+                    />
+                    {!formData["noun2"] && touchedNoun2 &&
+                        <span>Cannot be empty</span>}
                 </div>
                 <div>
                     <label htmlFor="adjective">Adjective</label>
@@ -52,8 +89,10 @@ function StoryForm({ addElement }) {
                         type="text"
                         placeholder="adjective"
                         value={formData.adjective}
-                        onChange={handleChange}
-                        required="required" />
+                        onChange={handleChange_Adj}
+                    />
+                    {!formData["adjective"] && touchedAdj &&
+                        <span>Cannot be empty</span>}
                 </div>
                 <div>
                     <label htmlFor="color">Color</label>
@@ -62,11 +101,14 @@ function StoryForm({ addElement }) {
                         type="text"
                         placeholder="color"
                         value={formData.color}
-                        onChange={handleChange}
-                        required="required" />
+                        onChange={handleChange_Color}
+                    />
+                    {!formData["color"] && touchedColor &&
+                        <span>Cannot be empty</span>}
                 </div>
                 <button>Generate Story</button>
             </form>
+
         </>
     );
 }

@@ -8,7 +8,7 @@ function GenerateStory({resetElement, noun1, noun2, adjective, color}) {
     }
     return (
         <>
-        <p>{noun1} {noun2} {adjective} {color}</p>
+        <p>There was a {color} {noun1} who loved a {adjective} {noun2}</p>
         <button onClick={reset}>Reset Story</button>
         </>
     );
